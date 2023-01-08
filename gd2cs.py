@@ -191,8 +191,8 @@ match_class_cs = fr"class";
 header = """
 using System;
 using Godot;
-using Dictionary = Godot.Collections.Dictionary;
-using Array = Godot.Collections.Array;
+using GDDict = Godot.Collections.Dictionary;
+using GDArray = Godot.Collections.Array;
 """;
 
 
@@ -233,10 +233,10 @@ variable_replacements = [ # Anything that uses case conversions happens in the a
 	["INF","Mathf.Inf"],
 	["NAN","Mathf.NaN"],
 	["self","this"],
-	["TYPE_ARRAY","typeof(Array)"],
+	["TYPE_ARRAY","typeof(GDArray)"],
 	["TYPE_BOOL","typeof(bool)"],
 	["TYPE_COLOR","typeof(Color)"],
-	["TYPE_DICTIONARY","typeof(Dictionary)"],
+	["TYPE_DICTIONARY","typeof(GDDict)"],
 	["TYPE_INT","typeof(int)"],
 	["TYPE_NIL","null"],
 	["TYPE_OBJECT","typeof(Godot.Object)"],
@@ -303,9 +303,9 @@ replacements = [
 		# Builtin constructors, like "Vector2()" => "new Vector2()"
 		[fr"(?<={separator})(?<!new\s+)(?P<A>\s*)(?P<B>{builtin_constructors})\s*\(",fr"\g<A>new \g<B>("],
 		# Turn lowest level unprocessed dictionaries. KV pairs are still of form K:V though
-		[fr"(?<!(new Dictionary\(\)|new Array\(\)))(?<=([:,={{[(]|return\s+))(?P<W>{match_eol}*\s*)(?P<C>{match_curlies})",r"\g<W>new Dictionary()\g<C>"], 
+		[fr"(?<!(new GDDict\(\)|new GDArray\(\)))(?<=([:,={{[(]|return\s+))(?P<W>{match_eol}*\s*)(?P<C>{match_curlies})",r"\g<W>new GDDict()\g<C>"],
 		# Same for array
-		[fr"(?<!(new Dictionary\(\)|new Array\(\)))(?<=([:,={{[(]|return\s+))(?P<W>{match_eol}*\s*)(\[(?P<C>([^\[]|(?R))*?)\])",r"\g<W>new Array(){\g<C>}"],
+		[fr"(?<!(new GDDict\(\)|new GDArray\(\)))(?<=([:,={{[(]|return\s+))(?P<W>{match_eol}*\s*)(\[(?P<C>([^\[]|(?R))*?)\])",r"\g<W>new GDArray(){\g<C>}"],
 		# Chars don't exist in gdscript, so let's assume all of those '-strings are normal "-strings.
 		# {
 		# 	"repeat":False,
